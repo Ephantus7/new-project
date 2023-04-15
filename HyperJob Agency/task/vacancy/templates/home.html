@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    {% if request.user.is_authenticated %}
+        {% if request.user.is_staff %}
+                <h2>Vacancies</h2>
+
+                {% for vacancy in vacancies %}
+                    <div>
+                        {{ vacancy.author }}: {{ vacancy.description }}
+                    </div>
+                {% endfor %}
+
+            <form method="get">
+                {% csrf_token %}
+                <a href="/vacancy/new">New Vacancy</a>
+                <br>
+            </form>
+
+        {% else %}
+            <h2>Resumes</h2>
+
+            {% for resume in resumes %}
+                <div>
+                    {{ resume.author }}: {{ resume.description }}
+                </div>
+            {% endfor %}
+            <form method="get">
+                {% csrf_token %}
+                <a href="/resume/new">New Resume</a>
+                <br>
+            </form>
+        {% endif %}
+    {% else %}
+        <h2>You're not logged in! <a href="/login">Log in</a></h2>
+    {% endif %}
+
+</body>
+</html>
